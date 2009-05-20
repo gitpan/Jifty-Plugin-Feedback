@@ -1,0 +1,19 @@
+---
+author: ~
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 0.85'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Jifty-Plugin-Feedback
+no_index:
+  directory:
+    - inc
+requires:
+  Jifty: 0
+version: 0.02
