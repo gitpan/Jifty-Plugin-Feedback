@@ -1,6 +1,6 @@
 use inc::Module::Install 0.85;
 name('Jifty-Plugin-Feedback');
-version_from('lib/Jifty/Plugin/Feedback.pm');
+all_from('lib/Jifty/Plugin/Feedback.pm');
 
 requires('Jifty');
 
