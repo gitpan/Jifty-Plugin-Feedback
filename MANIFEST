@@ -15,5 +15,5 @@ lib/Jifty/Plugin/Feedback/Action/SendFeedback.pm
 lib/Jifty/Plugin/Feedback/View.pm
 Makefile.PL
 MANIFEST			This list of files
-META.yml
 SIGNATURE
+META.yml

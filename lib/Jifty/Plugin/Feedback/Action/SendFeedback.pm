@@ -90,9 +90,10 @@ email. Returns it as a scalar.
 
 sub build_debugging_info {
     my $self = shift;
+    my %env = %{Jifty->web->request->env};
     my $message = "-- \nPrivate debugging information:\n";
-    $message   .= " $_: $ENV{$_}\n"
-      for sort grep {/^(HTTP|REMOTE|REQUEST)_/} keys %ENV;
+    $message   .= "    $_: $env{$_}\n"
+      for sort grep {/^(HTTP|REMOTE|REQUEST)_/} keys %env;
 
     return $message;
 }

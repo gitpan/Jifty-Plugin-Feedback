@@ -4,7 +4,7 @@ use warnings;
 package Jifty::Plugin::Feedback;
 use base qw/Jifty::Plugin Class::Accessor::Fast/;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -49,7 +49,7 @@ Jesse Vincent, C<jesse@bestpractical.com>
 
 =head1 LICENSE
 
-This plugin is copyright 2007-2009 Best Practical Solutions, LLC.
+This plugin is copyright 2007-2011 Best Practical Solutions, LLC.
 
 This plugin is distributed under the same terms as Perl itself.
 
