@@ -48,33 +48,35 @@ sub take_action {
     return 1 unless ( $self->argument_value('content') );
 
     my ($plugin) = Jifty->find_plugin('Jifty::Plugin::Feedback');
-    my $debug_info = $self->build_debugging_info();
+    my $from     = $plugin->from;
 
-    my $msg = $self->argument_value('content') . "\n\n" . $debug_info;
-    my $subject = substr( $self->argument_value('content'), 0, 60 );
-    $subject =~ s/\n/ /g;
-
-    # Fall back to normal email
-    my $mail = Jifty::Notification->new;
-    $mail->body($msg);
-
+    # Set the from to the current user if we can
     if (    Jifty->web->current_user->id
          && Jifty->web->current_user->user_object->can('email') ) {
 
          my $user = Jifty->web->current_user->user_object;
          my $CurrentUser = Jifty->app_class('CurrentUser');
          $user->current_user( $CurrentUser->superuser );
-         $mail->from( $user->email() || $plugin->from );
-    }
-    else {
-        $mail->from( $plugin->from );
+         $from = $user->email() || $plugin->from;
     }
 
-    $mail->recipients( $plugin->to );
-    $mail->subject( "["
-            . Jifty->config->framework('ApplicationName')
-            . " feedback] "
-            . $subject );
+    my $body = $self->argument_value('content') . "\n\n" .
+               $self->build_debugging_info;
+
+    my $subject = substr( $self->argument_value('content'), 0, 60 );
+    $subject =~ s/\n/ /g;    
+
+    Jifty::Util->require($plugin->notification);
+
+    # Specifying all our notification attributes in the constructor makes for
+    # easier to write a custom feedback notification class
+    my $mail = $plugin->notification->new(
+        recipients  => $plugin->to,
+        from        => $from,
+        subject     => $subject,
+        body        => $body,
+    );
+
     $mail->send_one_message;
 
     $self->result->message(qq[Thanks for the feedback. We appreciate it!]);

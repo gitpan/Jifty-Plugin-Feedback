@@ -4,7 +4,7 @@ use warnings;
 package Jifty::Plugin::Feedback;
 use base qw/Jifty::Plugin Class::Accessor::Fast/;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
@@ -20,6 +20,8 @@ Add to your app's config:
     - Feedback: 
         from: defaultsender@example.com
         to: recipient@example.com
+        # optional
+        notification: YourApp::Notification::Feedback
 
 Add to your app's UI where you want the feedback box:
 
@@ -27,12 +29,14 @@ Add to your app's UI where you want the feedback box:
 
 =cut
 
-__PACKAGE__->mk_accessors(qw(from to));
+__PACKAGE__->mk_accessors(qw(from to notification));
 
 =head2 init
 
-Initializes the Feedback object. Takes a paramhash with keys 'from'
-and 'to', which are email addresses.
+Initializes the Feedback object. Takes a paramhash with keys C<from> and C<to>,
+which are email addresses.  The optional C<notification> key is used to
+override the plugin's default L<Jifty::Plugin::Feedback::Notification> when
+sending mail.
 
 =cut
 
@@ -41,6 +45,7 @@ sub init {
     my %opt = @_;
     $self->from($opt{'from'});
     $self->to($opt{'to'});
+    $self->notification($opt{'notification'} || 'Jifty::Plugin::Feedback::Notification');
 }
 
 =head1 AUTHOR
